@@ -1,47 +1,84 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div id="app">
+    <div ref="rendererContainer" class="renderer-container"></div>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import * as THREE from 'three';
+import textureSun from './assets/images/chat.png';
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+export default {
+  name: 'App',
+  setup() {
+    const rendererContainer = ref(null);
+    let scene, camera, renderer, sun;
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    const initThreeJS = () => {
+      // Scene, Camera, Renderer
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 15;
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      rendererContainer.value.appendChild(renderer.domElement);
+
+      // Load Sun texture
+      const textureLoader = new THREE.TextureLoader();
+      const sunTexture = textureLoader.load(textureSun, () => {
+        // Create Sun geometry and material after texture is loaded
+        const sunGeometry = new THREE.SphereGeometry(5, 32, 32); // Adjust size as needed
+        const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
+
+        // Create Sun mesh
+        sun = new THREE.Mesh(sunGeometry, sunMaterial);
+
+        // Add Sun to the scene
+        scene.add(sun);
+      });
+
+      // Handle window resize
+      window.addEventListener('resize', onWindowResize, false);
+    };
+
+    const onWindowResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      if (sun) {
+        // Optional: Rotate the Sun for a better effect
+        sun.rotation.y += 0.005;
+      }
+
+      renderer.render(scene, camera);
+    };
+
+    onMounted(() => {
+      initThreeJS();
+      animate();
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', onWindowResize);
+    });
+
+    return {
+      rendererContainer
+    };
   }
+};
+</script>
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+<style>
+.renderer-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 </style>
