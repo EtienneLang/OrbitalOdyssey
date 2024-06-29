@@ -5,6 +5,8 @@
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import skyBox from './assets/textures/stars_milky_way_texture.jpg';
 import textureSun from './assets/textures/sun_texture.jpg';
 import textureMercury from './assets/textures/mercury_texture.jpg';
 
@@ -18,11 +20,17 @@ export default {
       // Scene, Camera, Renderer
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 15;
+
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       rendererContainer.value.appendChild(renderer.domElement);
 
+      // Initialize OrbitControls after renderer is defined
+      const controls = new OrbitControls(camera, renderer.domElement);
+      camera.position.set(0, 20, 100);
+      controls.update();
+
+      createSkybox();
       createSunMesh();
       createMercuryMesh();
       window.addEventListener('resize', onWindowResize, false);
@@ -43,7 +51,18 @@ export default {
         mercury.rotation.y += 0.01;
       }
 
+
       renderer.render(scene, camera);
+    };
+
+    const createSkybox = () => {
+      const textureLoader = new THREE.TextureLoader();
+      const texture = textureLoader.load(skyBox, () => {
+        const geometry = new THREE.BoxGeometry(1000, 1000, 1000);
+        const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide});
+        const skybox = new THREE.Mesh(geometry, material);
+        scene.add(skybox);
+      });
     };
 
     const createSunMesh = () => {
