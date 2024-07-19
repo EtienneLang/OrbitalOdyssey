@@ -16,6 +16,8 @@ import skyBoxRight from './assets/textures/skybox/right_skybox.jpg';
 import textureSun from './assets/textures/sun_texture.jpg';
 import textureMercury from './assets/textures/mercury_texture.jpg';
 
+import spacelol from './assets/textures/stars_milky_way_texture.jpg';
+
 export default {
   name: 'App',
   setup() {
@@ -120,9 +122,13 @@ export default {
 </script>
 
 <style>
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
 .renderer-container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  image-rendering: crisp-edges;
 }
 </style>
