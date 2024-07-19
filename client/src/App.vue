@@ -5,8 +5,18 @@
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+import skyBoxTop from './assets/textures/skybox/top_skybox.jpg';
+import skyBoxBottom from './assets/textures/skybox/bottom_skybox.jpg';
+import skyBoxFront from './assets/textures/skybox/front_skybox.jpg';
+import skyBoxBack from './assets/textures/skybox/back_skybox.jpg';
+import skyBoxLeft from './assets/textures/skybox/left_skybox.jpg';
+import skyBoxRight from './assets/textures/skybox/right_skybox.jpg';
 import textureSun from './assets/textures/sun_texture.jpg';
 import textureMercury from './assets/textures/mercury_texture.jpg';
+
+import spacelol from './assets/textures/stars_milky_way_texture.jpg';
 
 export default {
   name: 'App',
@@ -18,11 +28,17 @@ export default {
       // Scene, Camera, Renderer
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 15;
+
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       rendererContainer.value.appendChild(renderer.domElement);
 
+      // Initialize OrbitControls after renderer is defined
+      const controls = new OrbitControls(camera, renderer.domElement);
+      camera.position.set(0, 20, 100);
+      controls.update();
+
+      createSkybox();
       createSunMesh();
       createMercuryMesh();
       window.addEventListener('resize', onWindowResize, false);
@@ -43,7 +59,23 @@ export default {
         mercury.rotation.y += 0.01;
       }
 
+
       renderer.render(scene, camera);
+    };
+
+    const createSkybox = () => {
+      let geometry = new THREE.BoxGeometry(1000, 1000, 1000);
+      let cubeMaterial = [
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxRight), side: THREE.DoubleSide }), // Right
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxLeft), side: THREE.DoubleSide }), // Left
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxTop), side: THREE.DoubleSide }), // Top
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxBottom), side: THREE.DoubleSide }), // Bottom
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxFront), side: THREE.DoubleSide }), // Front
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxBack), side: THREE.DoubleSide }) // Back
+      ];
+
+      let skybox = new THREE.Mesh(geometry, cubeMaterial);
+      scene.add(skybox);
     };
 
     const createSunMesh = () => {
@@ -90,9 +122,13 @@ export default {
 </script>
 
 <style>
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
 .renderer-container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  image-rendering: crisp-edges;
 }
 </style>
