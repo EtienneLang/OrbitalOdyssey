@@ -13,10 +13,16 @@ import skyBoxFront from './assets/textures/skybox/front_skybox.jpg';
 import skyBoxBack from './assets/textures/skybox/back_skybox.jpg';
 import skyBoxLeft from './assets/textures/skybox/left_skybox.jpg';
 import skyBoxRight from './assets/textures/skybox/right_skybox.jpg';
+
 import textureSun from './assets/textures/sun_texture.jpg';
 import textureMercury from './assets/textures/mercury_texture.jpg';
-
-import spacelol from './assets/textures/stars_milky_way_texture.jpg';
+import textureVenus from './assets/textures/venus_texture.jpg';
+import textureMars from './assets/textures/mars_texture.jpg';
+import textureEarth from './assets/textures/earth_day_texture.jpg';
+import textureJupiter from './assets/textures/jupiter_texture.jpg';
+import textureSaturn from './assets/textures/saturn_texture.jpg';
+import textureUranus from './assets/textures/uranus_texture.jpg';
+import textureNeptune from './assets/textures/neptune_texture.jpg';
 
 export default {
   name: 'App',
@@ -41,6 +47,13 @@ export default {
       createSkybox();
       createSunMesh();
       createMercuryMesh();
+      createVenusMesh();
+      creatEarthMesh();
+      createMarsMesh();
+      createJupiterMesh();
+      createSaturneMesh();
+      createUranusMesh();
+      createNeptuneMesh();
       window.addEventListener('resize', onWindowResize, false);
     };
 
@@ -82,7 +95,7 @@ export default {
       const textureLoader = new THREE.TextureLoader();
           const sunTexture = textureLoader.load(textureSun, () => {
             // Create Sun geometry and material after texture is loaded
-            const sunGeometry = new THREE.SphereGeometry(5, 32, 32); // Adjust size as needed
+            const sunGeometry = new THREE.SphereGeometry(10, 32, 32); // Adjust size as needed
             const sunMaterial = new THREE.MeshBasicMaterial({map: sunTexture});
 
             // Create Sun mesh
@@ -94,16 +107,101 @@ export default {
       const textureLoader = new THREE.TextureLoader();
           const mercuryTexture = textureLoader.load(textureMercury, () => {
             // Create Sun geometry and material after texture is loaded
-            const mercuryGeometry = new THREE.SphereGeometry(1, 32, 32); // Adjust size as needed
+            const mercuryGeometry = new THREE.SphereGeometry(0.035, 32, 32); // Adjust size as needed
 
             const mercuryMaterial = new THREE.MeshBasicMaterial({map: mercuryTexture});
 
             // Create Sun mesh
             mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
             scene.add(mercury);
-            mercury.position.x = 10;
+            mercury.position.x = 15;
           });
     };
+    const createVenusMesh = () => {
+      const textureLoader = new THREE.TextureLoader();
+          const venusTexture = textureLoader.load(textureVenus, () => {
+            const venusGeometry = new THREE.SphereGeometry(0.087, 32, 32);
+            const venusMaterial = new THREE.MeshBasicMaterial({map: venusTexture});
+
+            venus = new THREE.Mesh(venusGeometry, venusMaterial);
+            scene.add(venus);
+            venus.position.x = 20;
+          });
+    };
+
+const creatEarthMesh = () => {
+      const textureLoader = new THREE.TextureLoader();
+          const earthTexture = textureLoader.load(textureEarth, () => {
+            const earthGeometry = new THREE.SphereGeometry(0.091, 32, 32);
+            const earthMaterial = new THREE.MeshBasicMaterial({map: earthTexture});
+
+            earth = new THREE.Mesh(earthGeometry, earthMaterial);
+            scene.add(earth);
+            earth.position.x = 25;
+          });
+    };
+
+    const createMarsMesh = () => {
+      const textureLoader = new THREE.TextureLoader();
+          const marsTexture = textureLoader.load(textureMars, () => {
+            const marsGeometry = new THREE.SphereGeometry(0.049, 32, 32);
+            const marsMaterial = new THREE.MeshBasicMaterial({map: marsTexture});
+
+            mars = new THREE.Mesh(marsGeometry, marsMaterial);
+            scene.add(mars);
+            mars.position.x = 30;
+          });
+    };
+
+    const createJupiterMesh = () => {
+      const textureLoader = new THREE.TextureLoader();
+          const jupiterTexture = textureLoader.load(textureJupiter, () => {
+            const jupiterGeometry = new THREE.SphereGeometry(1.004, 32, 32);
+            const jupiterMaterial = new THREE.MeshBasicMaterial({map: jupiterTexture});
+
+            jupiter = new THREE.Mesh(jupiterGeometry, jupiterMaterial);
+            scene.add(jupiter);
+            jupiter.position.x = 35;
+          });
+    };
+
+    const createSaturneMesh = () => {
+      const textureLoader = new THREE.TextureLoader();
+          const saturnTexture = textureLoader.load(textureSaturn, () => {
+            const saturnGeometry = new THREE.SphereGeometry(0.836, 32, 32);
+            const saturnMaterial = new THREE.MeshBasicMaterial({map: saturnTexture});
+
+            saturn = new THREE.Mesh(saturnGeometry, saturnMaterial);
+            scene.add(saturn);
+            saturn.position.x = 40;
+          });
+    };
+
+    const createUranusMesh = () => {
+      const textureLoader = new THREE.TextureLoader();
+          const uranusTexture = textureLoader.load(textureUranus, () => {
+            const uranusGeometry = new THREE.SphereGeometry(0.364, 32, 32);
+            const uranusMaterial = new THREE.MeshBasicMaterial({map: uranusTexture});
+
+            uranus = new THREE.Mesh(uranusGeometry, uranusMaterial);
+            scene.add(uranus);
+            uranus.position.x = 45;
+          });
+    };
+
+    const createNeptuneMesh = () => {
+      const textureLoader = new THREE.TextureLoader();
+          const neptuneTexture = textureLoader.load(textureNeptune, () => {
+            const neptuneGeometry = new THREE.SphereGeometry(0.354, 32, 32);
+            const neptuneMaterial = new THREE.MeshBasicMaterial({map: neptuneTexture});
+
+            neptune = new THREE.Mesh(neptuneGeometry, neptuneMaterial);
+            scene.add(neptune);
+            neptune.position.x = 50;
+          });
+    };
+
+    
 
     onMounted(() => {
       initThreeJS();
