@@ -6,6 +6,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import constantes from './assets/Constantes.js';
 
 import skyBoxTop from './assets/textures/skybox/top.png';
 import skyBoxBottom from './assets/textures/skybox/bottom.png';
