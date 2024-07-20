@@ -6,7 +6,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import constantes from './assets/Constantes.js';
+import {INFORMATIONSPLANETESRENDER} from './assets/Constantes.js';
 
 import skyBoxTop from './assets/textures/skybox/top.png';
 import skyBoxBottom from './assets/textures/skybox/bottom.png';
@@ -52,7 +52,7 @@ setup() {
     creatEarthMesh();
     createMarsMesh();
     createJupiterMesh();
-    createSaturneMesh();
+    createSaturnMesh();
     createUranusMesh();
     createNeptuneMesh();
     window.addEventListener('resize', onWindowResize, false);
@@ -78,7 +78,7 @@ setup() {
   };
 
   const createSkybox = () => {
-    let geometry = new THREE.BoxGeometry(2000, 2000, 2000);
+    let geometry = new THREE.BoxGeometry(10000, 10000, 10000)
     let cubeMaterial = [
       new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxRight), side: THREE.DoubleSide }), // Right
       new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(skyBoxLeft), side: THREE.DoubleSide }), // Left
@@ -96,7 +96,7 @@ setup() {
     const textureLoader = new THREE.TextureLoader();
         const sunTexture = textureLoader.load(textureSun, () => {
           // Create Sun geometry and material after texture is loaded
-          const sunGeometry = new THREE.SphereGeometry(10, 32, 32); // Adjust size as needed
+          const sunGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.sun.rayonRender, 32, 32); // Adjust size as needed
           const sunMaterial = new THREE.MeshBasicMaterial({map: sunTexture});
 
           // Create Sun mesh
@@ -108,97 +108,98 @@ setup() {
     const textureLoader = new THREE.TextureLoader();
         const mercuryTexture = textureLoader.load(textureMercury, () => {
           // Create Sun geometry and material after texture is loaded
-          const mercuryGeometry = new THREE.SphereGeometry(0.035, 32, 32); // Adjust size as needed
+          const mercuryGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.mercury.rayonRender, 32, 32); // Adjust size as needed
 
           const mercuryMaterial = new THREE.MeshBasicMaterial({map: mercuryTexture});
 
           // Create Sun mesh
           mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
           scene.add(mercury);
-          mercury.position.x = 15;
+          console.log(INFORMATIONSPLANETESRENDER.mercury.rayonRender);
+          mercury.position.x = INFORMATIONSPLANETESRENDER.mercury.distanceRender;
         });
   };
   const createVenusMesh = () => {
     const textureLoader = new THREE.TextureLoader();
         const venusTexture = textureLoader.load(textureVenus, () => {
-          const venusGeometry = new THREE.SphereGeometry(0.087, 32, 32);
+          const venusGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.venus.rayonRender, 32, 32);
           const venusMaterial = new THREE.MeshBasicMaterial({map: venusTexture});
 
           venus = new THREE.Mesh(venusGeometry, venusMaterial);
           scene.add(venus);
-          venus.position.x = 20;
+          venus.position.x = INFORMATIONSPLANETESRENDER.venus.distanceRender;
         });
   };
 
 const creatEarthMesh = () => {
     const textureLoader = new THREE.TextureLoader();
         const earthTexture = textureLoader.load(textureEarth, () => {
-          const earthGeometry = new THREE.SphereGeometry(0.091, 32, 32);
+          const earthGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.earth.rayonRender, 32, 32);
           const earthMaterial = new THREE.MeshBasicMaterial({map: earthTexture});
 
           earth = new THREE.Mesh(earthGeometry, earthMaterial);
           scene.add(earth);
-          earth.position.x = 25;
+          earth.position.x = INFORMATIONSPLANETESRENDER.earth.distanceRender;
         });
   };
 
   const createMarsMesh = () => {
     const textureLoader = new THREE.TextureLoader();
         const marsTexture = textureLoader.load(textureMars, () => {
-          const marsGeometry = new THREE.SphereGeometry(0.049, 32, 32);
+          const marsGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.mars.rayonRender, 32, 32);
           const marsMaterial = new THREE.MeshBasicMaterial({map: marsTexture});
 
           mars = new THREE.Mesh(marsGeometry, marsMaterial);
           scene.add(mars);
-          mars.position.x = 30;
+          mars.position.x = INFORMATIONSPLANETESRENDER.mars.distanceRender;
         });
   };
 
   const createJupiterMesh = () => {
     const textureLoader = new THREE.TextureLoader();
         const jupiterTexture = textureLoader.load(textureJupiter, () => {
-          const jupiterGeometry = new THREE.SphereGeometry(1.004, 32, 32);
+          const jupiterGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.jupiter.rayonRender, 32, 32);
           const jupiterMaterial = new THREE.MeshBasicMaterial({map: jupiterTexture});
 
           jupiter = new THREE.Mesh(jupiterGeometry, jupiterMaterial);
           scene.add(jupiter);
-          jupiter.position.x = 35;
+          jupiter.position.x = INFORMATIONSPLANETESRENDER.jupiter.distanceRender;
         });
   };
 
-  const createSaturneMesh = () => {
+  const createSaturnMesh = () => {
     const textureLoader = new THREE.TextureLoader();
         const saturnTexture = textureLoader.load(textureSaturn, () => {
-          const saturnGeometry = new THREE.SphereGeometry(0.836, 32, 32);
+          const saturnGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.saturn.rayonRender, 32, 32);
           const saturnMaterial = new THREE.MeshBasicMaterial({map: saturnTexture});
 
           saturn = new THREE.Mesh(saturnGeometry, saturnMaterial);
           scene.add(saturn);
-          saturn.position.x = 40;
+          saturn.position.x = INFORMATIONSPLANETESRENDER.saturn.distanceRender;
         });
   };
 
   const createUranusMesh = () => {
     const textureLoader = new THREE.TextureLoader();
         const uranusTexture = textureLoader.load(textureUranus, () => {
-          const uranusGeometry = new THREE.SphereGeometry(0.364, 32, 32);
+          const uranusGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.uranus.rayonRender, 32, 32);
           const uranusMaterial = new THREE.MeshBasicMaterial({map: uranusTexture});
 
           uranus = new THREE.Mesh(uranusGeometry, uranusMaterial);
           scene.add(uranus);
-          uranus.position.x = 45;
+          uranus.position.x = INFORMATIONSPLANETESRENDER.uranus.distanceRender;
         });
   };
 
   const createNeptuneMesh = () => {
     const textureLoader = new THREE.TextureLoader();
         const neptuneTexture = textureLoader.load(textureNeptune, () => {
-          const neptuneGeometry = new THREE.SphereGeometry(0.354, 32, 32);
+          const neptuneGeometry = new THREE.SphereGeometry(INFORMATIONSPLANETESRENDER.neptune.rayonRender, 32, 32);
           const neptuneMaterial = new THREE.MeshBasicMaterial({map: neptuneTexture});
 
           neptune = new THREE.Mesh(neptuneGeometry, neptuneMaterial);
           scene.add(neptune);
-          neptune.position.x = 50;
+          neptune.position.x = INFORMATIONSPLANETESRENDER.neptune.distanceRender;
         });
   };
 
