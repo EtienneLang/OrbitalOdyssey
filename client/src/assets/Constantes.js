@@ -1,5 +1,5 @@
-const rayonSoleilRender = 1;
-const rayonSoleilIrl = 696340;
+export const rayonSoleilRender = 1;
+export const rayonSoleilIrl = 696340;
 
 export const INFORMATIONSPLANETESIRL = {
 	sun: { rayonIrl: 696340, distanceIrl: 0, rotationHeure: 609.12 },
@@ -80,20 +80,4 @@ export const INFORMATIONSPLANETESRENDER = {
 	},
 };
 
-/**
- * Calculer le rayon de la planète en fonction du rayon du soleil
- * @param rayonPlanete Vrai rayon de la planète en KM
- * @returns {number} Rayon de la planète à l'échelle pour le rendu
- */
-function CalculerRayonRender(rayonPlanete) {
-	return (rayonPlanete * rayonSoleilRender) / rayonSoleilIrl;
-}
 
-/**
- * Calculer la distance de la planète en fonction de la distance
- * @param distancePlaneteIrl Vraie distance de la planète en KM
- * @returns {number} Distance de la planète à l'échelle pour le rendu
- */
-function CalculerDistanceRender(distancePlaneteIrl) {
-	return (distancePlaneteIrl * rayonSoleilRender) / rayonSoleilIrl;
-}
