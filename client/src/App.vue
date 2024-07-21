@@ -32,6 +32,15 @@ export default {
 			uranus,
 			neptune;
 
+		const skyboxImages = [
+			skyBoxRight,
+			skyBoxLeft,
+			skyBoxTop,
+			skyBoxBottom,
+			skyBoxFront,
+			skyBoxBack,
+		];
+
 		const initThreeJS = () => {
 			scene = new THREE.Scene();
 			camera = new THREE.PerspectiveCamera(
@@ -72,45 +81,28 @@ export default {
 			renderer.render(scene, camera);
 		};
 
-    /**
-     * Permet de créer le skybox
-     */
-		const createSkybox = () => {
-			let geometry = new THREE.BoxGeometry(10000, 10000, 10000);
-			let cubeMaterial = [
-				new THREE.MeshBasicMaterial({
-					map: new THREE.TextureLoader().load(skyBoxRight),
-					side: THREE.DoubleSide,
-				}), // Right
-				new THREE.MeshBasicMaterial({
-					map: new THREE.TextureLoader().load(skyBoxLeft),
-					side: THREE.DoubleSide,
-				}), // Left
-				new THREE.MeshBasicMaterial({
-					map: new THREE.TextureLoader().load(skyBoxTop),
-					side: THREE.DoubleSide,
-				}), // Top
-				new THREE.MeshBasicMaterial({
-					map: new THREE.TextureLoader().load(skyBoxBottom),
-					side: THREE.DoubleSide,
-				}), // Bottom
-				new THREE.MeshBasicMaterial({
-					map: new THREE.TextureLoader().load(skyBoxFront),
-					side: THREE.DoubleSide,
-				}), // Front
-				new THREE.MeshBasicMaterial({
-					map: new THREE.TextureLoader().load(skyBoxBack),
-					side: THREE.DoubleSide,
-				}), // Back
-			];
+		/**
+		 * Permet de créer le skybox
+		 */
 
+		const createSkybox = () => {
+			let cubeMaterial = [];
+			let geometry = new THREE.BoxGeometry(10000, 10000, 10000);
+			skyboxImages.forEach((image) => {
+				cubeMaterial.push(
+					new THREE.MeshBasicMaterial({
+						map: new THREE.TextureLoader().load(image),
+						side: THREE.DoubleSide,
+					})
+				);
+			});
 			let skybox = new THREE.Mesh(geometry, cubeMaterial);
 			scene.add(skybox);
 		};
 
-    /**
-     * Permet de créer tous les planètes
-     */
+		/**
+		 * Permet de créer tous les planètes
+		 */
 		const renderPlanetes = () => {
 			Object.entries(INFORMATIONSPLANETESIRL).forEach((planete) => {
 				console.log(planete);
