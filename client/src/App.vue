@@ -6,8 +6,8 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import {INFORMATIONSPLANETESRENDER} from './assets/Constantes.js';
-
+import {INFORMATIONSPLANETESIRL} from './assets/Constantes.js';
+import Planete from './classes/planete.js';
 import skyBoxTop from './assets/textures/skybox/top.png';
 import skyBoxBottom from './assets/textures/skybox/bottom.png';
 import skyBoxFront from './assets/textures/skybox/front.png';
@@ -15,21 +15,12 @@ import skyBoxBack from './assets/textures/skybox/back.png';
 import skyBoxLeft from './assets/textures/skybox/left.png';
 import skyBoxRight from './assets/textures/skybox/right.png';
 
-import textureSun from './assets/textures/sun_texture.jpg';
-import textureMercury from './assets/textures/mercury_texture.jpg';
-import textureVenus from './assets/textures/venus_texture.jpg';
-import textureMars from './assets/textures/mars_texture.jpg';
-import textureEarth from './assets/textures/earth_day_texture.jpg';
-import textureJupiter from './assets/textures/jupiter_texture.jpg';
-import textureSaturn from './assets/textures/saturn_texture.jpg';
-import textureUranus from './assets/textures/uranus_texture.jpg';
-import textureNeptune from './assets/textures/neptune_texture.jpg';
 
 export default {
 name: 'App',
 setup() {
   const rendererContainer = ref(null);
-  let scene, camera, renderer, sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto;
+  let scene, camera, renderer, sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune;
 
   const initThreeJS = () => {
     // Scene, Camera, Renderer
@@ -46,15 +37,21 @@ setup() {
     controls.update();
 
     createSkybox();
-    createSunMesh();
-    createMercuryMesh();
-    createVenusMesh();
-    creatEarthMesh();
-    createMarsMesh();
-    createJupiterMesh();
-    createSaturnMesh();
-    createUranusMesh();
-    createNeptuneMesh();
+    // createSunMesh();
+    // createMercuryMesh();
+    // createVenusMesh();
+    // creatEarthMesh();
+    // createMarsMesh();
+    // createJupiterMesh();
+    // createSaturnMesh();
+    // createUranusMesh();
+    // createNeptuneMesh();
+    Object.entries(INFORMATIONSPLANETESIRL).forEach((planete) => {
+      console.log(planete);
+      let newPlanete = new Planete(planete[1].nom, planete[1].rayonIrl, planete[1].distanceIrl, 1);
+      newPlanete.CreatePlanetMesh(scene);
+    });
+    
     window.addEventListener('resize', onWindowResize, false);
   };
 
