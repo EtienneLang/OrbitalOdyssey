@@ -1,4 +1,4 @@
-class systeme {
+class Systeme {
     constructor() {
         this.planetes = [];
         this.etoile;
@@ -11,5 +11,5 @@ class systeme {
     setEtoile(etoile) {
         this.etoile = etoile;
     }
-    
 }
+export default Systeme;

@@ -12,8 +12,10 @@ class Planete {
 		this.distanceIrl = distanceIrl;
 		this.rayonRender = this.CalculerRayonRender(rayonIrl);
 		this.distanceRender = this.CalculerDistanceRender(distanceIrl);
-		this.rotationEnHeure = rotationEnHeure;
-        this.texture = new URL(`/src/assets/textures/${nom}_texture.jpg`, import.meta.url).href
+		this.mesh = null;
+		this.vitesseRotation = 360 / (this.vitesseRotation * 3600);
+		this.angleRotation = 0; // Angle de rotation actuel en degrés
+		this.texture = new URL(`/src/assets/textures/${nom}_texture.jpg`, import.meta.url).href
     }
 
 	/**
@@ -40,19 +42,18 @@ class Planete {
 	 * @param scene Scène dans laquelle ajouter la planète
 	 */
 	CreatePlanetMesh(scene) {
-        console.log(this.texture)	
-
-        console.log(this.distanceRender)
 		const textureLoader = new THREE.TextureLoader();
 		const texture = textureLoader.load(this.texture, () => {
 			const geometry = new THREE.SphereGeometry(this.rayonRender, 32, 32);
-			const material = new THREE.MeshBasicMaterial({ map: texture });
+			const material = new THREE.MeshBasicMaterial({map: texture});
 
 			let object = new THREE.Mesh(geometry, material);
+			this.mesh = object;
 			scene.add(object);
 			object.position.x = this.distanceRender;
 		});
 	}
+
 }
 
 export default Planete;

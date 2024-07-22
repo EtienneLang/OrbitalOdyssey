@@ -8,6 +8,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { INFORMATIONSPLANETESIRL } from "./assets/Constantes.js";
 import Planete from "./classes/planete.js";
+import Systeme from "./classes/systeme.js";
 import skyBoxTop from "./assets/textures/skybox/top.png";
 import skyBoxBottom from "./assets/textures/skybox/bottom.png";
 import skyBoxFront from "./assets/textures/skybox/front.png";
@@ -41,6 +42,8 @@ export default {
 			skyBoxBack,
 		];
 
+    let systemeSolaire = new Systeme();
+
 		const initThreeJS = () => {
 			scene = new THREE.Scene();
 			camera = new THREE.PerspectiveCamera(
@@ -60,7 +63,6 @@ export default {
 
 			createSkybox();
 			renderPlanetes();
-
 			window.addEventListener("resize", onWindowResize, false);
 		};
 
@@ -72,11 +74,7 @@ export default {
 
 		const animate = () => {
 			requestAnimationFrame(animate);
-			if (sun && mercury) {
-				// Optional: Rotate the Sun for a better effect
-				sun.rotation.y += 0.0005;
-				mercury.rotation.y += 0.01;
-			}
+
 
 			renderer.render(scene, camera);
 		};
@@ -84,7 +82,6 @@ export default {
 		/**
 		 * Permet de créer le skybox
 		 */
-
 		const createSkybox = () => {
 			let cubeMaterial = [];
 			let geometry = new THREE.BoxGeometry(10000, 10000, 10000);
@@ -105,19 +102,21 @@ export default {
 		 */
 		const renderPlanetes = () => {
 			Object.entries(INFORMATIONSPLANETESIRL).forEach((planete) => {
-				console.log(planete);
 				let newPlanete = new Planete(
 					planete[1].nom,
 					planete[1].rayonIrl,
 					planete[1].distanceIrl,
-					1
+					planete[1].rotationHeure,
 				);
+        systemeSolaire.addPlanet(newPlanete);
 				newPlanete.CreatePlanetMesh(scene);
 			});
 		};
+
 		onMounted(() => {
 			initThreeJS();
 			animate();
+      console.log(systemeSolaire.planetes)
 		});
 
 		onBeforeUnmount(() => {
